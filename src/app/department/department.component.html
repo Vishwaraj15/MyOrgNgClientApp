@@ -1,0 +1,25 @@
+<h3>
+  Departments
+</h3>
+<div class=""><a routerLink='create' routerLinkActive='Active'>Create Department</a></div>
+<div>
+  <table class="table table-borderd">
+    
+      <tr>
+        <td>Dept Id</td>
+        <td>Dept Name</td>
+        <td>Active</td>
+        <td>View Details</td>
+      </tr>
+    
+    <tbody *ngFor="let dept of depts">
+      <tr>
+        <td>{{dept.PKDeptId}}</td>
+        <td>{{dept.DeptName}}</td>
+        <td>{{dept.IsActive}}</td>
+        <td><a [routerLink]="" (click)='onGetDetails(dept.PKDeptId)'>View Details</a></td>
+      </tr>
+    </tbody>
+  </table>
+    <div *ngIf='errorMessage' class="alert alert-danger">{{errorMessage}}</div>
+</div>

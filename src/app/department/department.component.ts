@@ -1,28 +1,26 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DepartmentService } from '../services/department.service';
 import { ActivatedRoute, Router, RouteReuseStrategy,ActivatedRouteSnapshot, NavigationEnd } from '@angular/router';
 import { Department } from '../models/department.model';
+import { Subscription } from 'rxjs/internal/Subscription';
 
 @Component({
   selector: 'app-department',
   templateUrl: './department.component.html',
   styles: []
 })
-export class DepartmentComponent implements OnInit {
+export class DepartmentComponent implements OnInit,OnDestroy {
   
-  errorMessage : string;
-  depts: Department[];
-
+  private errorMessage : string;
+  private depts: Department[];
+  private _routerSub = Subscription.EMPTY;
+  
   constructor(private router: Router, private route: ActivatedRoute, private deptService: DepartmentService) {
     this.routeEvent(this.router);
   }
    
   ngOnInit() {
     console.log('oninit');
-    // this.router.routeReuseStrategy.shouldReuseRoute = function(){
-    //   return false;
-    // }
-   //this.getDepts();
   }
 
   routeEvent(router: Router){
@@ -33,8 +31,11 @@ export class DepartmentComponent implements OnInit {
     });
   }
 
+  ngOnDestroy(){
+    this._routerSub.unsubscribe();
+  }
+
   getDepts():void {
-    
     this.deptService.getDepartments().subscribe((data) => {
       console.log('---data---');
       this.depts = data;

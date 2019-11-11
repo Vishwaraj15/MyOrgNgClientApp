@@ -7,10 +7,11 @@ import { DepartmentDetailComponent } from './department/department-detail/depart
 import { CreateDepartmentComponent } from './department/create-department/create-department.component';
 import { EmployeeDetailComponent } from './employee/employee-detail/employee-detail.component';
 import { CreateEmployeeComponent } from './employee/create-employee/create-employee.component';
+import { DepartmentRouteResolver } from './services/department-route-resolver';
 
 const routes: Routes = [
   {path:'', component: EmployeeComponent, pathMatch:'full'},
-  {path:'department', component: DepartmentComponent},
+  {path:'department', component: DepartmentComponent,resolve:{depts:DepartmentRouteResolver}},
   {path:'department/create', component: CreateDepartmentComponent,pathMatch:'full'},
   {path:'department/:id', component: DepartmentDetailComponent},
   

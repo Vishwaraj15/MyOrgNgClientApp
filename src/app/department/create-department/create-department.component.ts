@@ -25,7 +25,13 @@ export class CreateDepartmentComponent implements OnInit {
   create(){
     this.deptService.addDept(this.dept).subscribe();
     console.log(this.dept);
-    this.router.navigateByUrl('/department');
+    ///this.router.navigateByUrl('/department');
+    this.redirectTo('/department');
   }
 
+  
+  redirectTo(uri:string){
+    this.router.navigateByUrl('/DummyComponent', {skipLocationChange: true}).then(()=>
+    this.router.navigate([uri]));
+  }
 }

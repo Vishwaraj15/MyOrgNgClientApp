@@ -7,6 +7,7 @@ import { GlobalErrorHandler } from './global-error-handler';
 import {FormsModule} from '@angular/forms';
 import { CustomRouteReuseStategy } from './custom-route-reuse-stategy';
 import { RouteReuseStrategy } from '@angular/router';
+import { DepartmentRouteResolver } from './services/department-route-resolver';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,7 @@ import { RouteReuseStrategy } from '@angular/router';
     FormsModule,
     HttpClientModule
   ],
-  providers:[],
+  providers:[DepartmentRouteResolver],
   //providers: [{provide: ErrorHandler, useClass: GlobalErrorHandler}],
   bootstrap: [AppComponent]
 })

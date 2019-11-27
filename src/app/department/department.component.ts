@@ -12,15 +12,14 @@ import { Subscription } from 'rxjs/internal/Subscription';
 export class DepartmentComponent implements OnInit, OnDestroy {
 
   private errorMessage: string;
-  private depts: Department[];
-  private _deptSub = Subscription.EMPTY;
+  private _depts: Department[];
+  private dept: Department = new Department();
+  private dataFromChild: number;
 
   constructor(private router: Router, private route: ActivatedRoute, private deptService: DepartmentService) {
-    //this.depts = this.route.snapshot.data['depts'];
-    // this._deptSub = route.data.subscribe((data) => {
-    //   this.depts = data['depts'];
-    // });
-    console.log(this.depts);
+    //this._depts = this.route.snapshot.data['depts'];
+    //console.log(this._depts);
+    
   }
 
   ngOnInit() {
@@ -29,15 +28,13 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this._deptSub.unsubscribe();
-    console.log('Destroyed');
   }
 
 
   getDepts(): void {
-    this._deptSub = this.deptService.getDepartments().subscribe((data) => {
-      console.log('---data---');
-      this.depts = data;
+    this.deptService.getDepartments().subscribe((data) => {
+      console.log('---data from service---');
+      this._depts = data;
       console.log(data);
     },
       (err: any) => {
@@ -46,12 +43,29 @@ export class DepartmentComponent implements OnInit, OnDestroy {
       });
   }
 
-  onGetDetails(id: number) {
+  getDetails(id: number) {
     this.router.navigate([id], { relativeTo: this.route });
   }
 
-  onGoCreate() {
-    alert('Hi Create');
-    this.router.navigate(['department/create']);
+  delete(deptData:any){
+    this.dept = <Department>deptData;
+    console.log(this.dept);
+    document.getElementById("openModalButton").click();
+    
   }
+
+  handleEvent(id:number){
+    this.dataFromChild = id;
+    this.deptService.deleteDept(this.dataFromChild).subscribe((data) => {
+      console.log('---Successfully deleted---');
+      document.getElementById("openModalButton").click();
+      console.log(data);
+      this.getDepts();
+    },
+      (err: any) => {
+        console.log(err);
+        this.errorMessage = err.statusText;
+      });
+  }
+
 }

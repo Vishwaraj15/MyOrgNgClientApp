@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Department } from 'src/app/models/department.model';
-import { Router} from '@angular/router';
+import { Router } from '@angular/router';
 import { DepartmentService } from 'src/app/services/department.service';
 
 
@@ -11,10 +11,10 @@ import { DepartmentService } from 'src/app/services/department.service';
 })
 export class CreateDepartmentComponent implements OnInit {
 
-  dept : Department = {
-    DeptName : '',
-    PKDeptId : 0,
-    IsActive : false
+  private dept: Department = {
+    DeptName: '',
+    PKDeptId: 0,
+    IsActive: false
   };
 
   constructor(private router: Router, private deptService: DepartmentService) { }
@@ -22,16 +22,14 @@ export class CreateDepartmentComponent implements OnInit {
   ngOnInit() {
   }
 
-  create(){
-    this.deptService.addDept(this.dept).subscribe();
-    console.log(this.dept);
-    ///this.router.navigateByUrl('/department');
-    this.redirectTo('/department');
-  }
-
-  
-  redirectTo(uri:string){
-    this.router.navigateByUrl('/DummyComponent', {skipLocationChange: true}).then(()=>
-    this.router.navigate([uri]));
+  create() {
+    this.deptService.addDept(this.dept).subscribe((data) => {
+        console.log('Created');
+        console.log(data);
+        this.router.navigate(['department']);
+      },
+      (error) => {
+        alert('Error occurred!');
+      });
   }
 }

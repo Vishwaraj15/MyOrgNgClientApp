@@ -3,23 +3,27 @@
 </h3>
 <div class=""><a routerLink='create' routerLinkActive='Active'>Create Department</a></div>
 <div>
+  <div *ngIf='errorMessage' class="alert alert-danger">{{errorMessage}}</div>
   <table class="table table-borderd">
-    
+    <thead>
       <tr>
         <td>Dept Id</td>
         <td>Dept Name</td>
         <td>Active</td>
-        <td>View Details</td>
+        <td class="text-center">Actions</td>
       </tr>
-    
-    <tbody *ngFor="let dept of depts">
-      <tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let dept of _depts">
         <td>{{dept.PKDeptId}}</td>
         <td>{{dept.DeptName}}</td>
-        <td>{{dept.IsActive}}</td>
-        <td><a [routerLink]="" (click)='onGetDetails(dept.PKDeptId)'>View Details</a></td>
+        <td><input type="checkbox" disabled [checked]="dept.IsActive" /></td>
+        <td class="text-center"><a [routerLink]="" (click)='getDetails(dept.PKDeptId)'>View Details</a> |
+          <a routerLink='edit/{{dept.PKDeptId}}' routerLinkActive='Active'>Edit</a> |
+          <button style="padding:0;" class="btn btn-link" (click)="delete(dept)">Delete</button></td>
       </tr>
     </tbody>
   </table>
-    <div *ngIf='errorMessage' class="alert alert-danger">{{errorMessage}}</div>
 </div>
+
+<app-confirm-dialog (childEvent)='handleEvent($event)' [dept]="dept" ></app-confirm-dialog>
